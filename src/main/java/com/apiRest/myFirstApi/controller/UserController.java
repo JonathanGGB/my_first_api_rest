@@ -1,10 +1,18 @@
 package com.apiRest.myFirstApi.controller;
 
+import com.apiRest.myFirstApi.entity.Product;
 import com.apiRest.myFirstApi.entity.User;
 import com.apiRest.myFirstApi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,5 +66,36 @@ public class UserController {
     @GetMapping("/getAll") // Mapeo para manejar solicitudes GET en la ruta /users/getAll
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @Operation(summary = "Get the product list of a user")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Lista de productos del usuario",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Product.class),
+                            examples = @ExampleObject(value = "[{\"id\": 1, \"name\": \"Producto 1\", \"cost\": 10.0, \"quantity\": 5}]")
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuario no encontrado",
+                    content = @Content(
+                            mediaType = "text/plain",
+                            examples = @ExampleObject(value = "Usuario no encontrado")
+                    )
+            )
+    })
+    @GetMapping("/{id}/shop_list")
+    public ResponseEntity<?> getUserShopList(@PathVariable Long id){
+        User user = userService.getUser(id);
+        if(user != null){
+            List<Product> products = user.getShopList();
+            return ResponseEntity.ok(products);
+        } else{
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
     }
 }

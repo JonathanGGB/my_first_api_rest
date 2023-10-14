@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity // Indica que esta clase es una entidad JPA, una tabla en base de datos
 @Table(name = "users") // Define el nombre de la tabla en la base de datos
 @Data // Genera automáticamente los métodos getter, setter, toString, equals, y hashCode
@@ -20,4 +22,8 @@ public class User {
 
     @Column // Por defecto, el nombre de la columna es el mismo que el nombre del campo
     private String email; // Campo para la dirección de correo electrónico del usuario
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private List<Product> shopList;
 }
