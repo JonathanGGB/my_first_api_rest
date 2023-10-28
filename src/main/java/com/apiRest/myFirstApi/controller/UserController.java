@@ -20,7 +20,7 @@ import java.util.List;
 @RestController // Marca la clase como un controlador REST
 @RequestMapping("/users") // Define la raíz de URL para todas las rutas manejadas por este controlador
 @Tag(name = "Users") // Etiqueta para documentación Swagger
-
+@CrossOrigin(origins="*")
 public class UserController {
 
     @Autowired // Realiza la inyección automática de la dependencia UserService
