@@ -2,6 +2,7 @@ package com.apiRest.myFirstApi.exceptionHandler;
 
 import com.apiRest.myFirstApi.exception.ErrorResponse;
 import com.apiRest.myFirstApi.exception.TaskNotFoundException;
+import com.apiRest.myFirstApi.exception.UserNotFoundException;
 import com.apiRest.myFirstApi.exception.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleTaskNotFoundException(TaskNotFoundException ex){
         return new ErrorResponse("Tarea no encontrada", ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleUserNotFoundException(UserNotFoundException ex){
+        return new ErrorResponse("Usuario no encontrado", ex.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)

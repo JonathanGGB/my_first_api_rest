@@ -2,6 +2,7 @@ package com.apiRest.myFirstApi.controller;
 
 import com.apiRest.myFirstApi.entity.Product;
 import com.apiRest.myFirstApi.entity.User;
+import com.apiRest.myFirstApi.exception.UserNotFoundException;
 import com.apiRest.myFirstApi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,6 +38,11 @@ public class UserController {
     @Operation(summary = "Get a user by ID") // Descripción de la operación para Swagger
     @GetMapping("/{id}") // Mapeo para manejar solicitudes GET en la ruta /users/{id}
     public User getUser(@PathVariable Long id) {
+        System.out.println(id);
+        if (id <= 0 || id == null) {
+            throw new UserNotFoundException("El usuario no se encontró con el ID: " + id);
+        }
+        System.out.println("NO ENTRO");
         return userService.getUser(id);
     }
 
