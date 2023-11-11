@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping("/{id}") // Mapeo para manejar solicitudes GET en la ruta /users/{id}
     public User getUser(@PathVariable Long id) {
         System.out.println(id);
-        if (id <= 0 || id == null) {
+        if (id <= 0) {
             throw new UserNotFoundException("El usuario no se encontró con el ID: " + id);
         }
         System.out.println("NO ENTRO");
@@ -63,8 +63,11 @@ public class UserController {
     // Elimina un usuario por su ID
     @Operation(summary = "Delete a user by ID") // Descripción de la operación para Swagger
     @DeleteMapping("/{id}") // Mapeo para manejar solicitudes DELETE en la ruta /users/{id}
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public boolean deleteUser(@PathVariable Long id) {
+        if (userService.deleteUser(id)){
+            return true;
+        }
+        return false;
     }
 
     // Obtiene todos los usuarios

@@ -28,13 +28,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleUserNotFoundException(UserNotFoundException ex){
+        //TO DO
         return new ErrorResponse("Usuario no encontrado", ex.getMessage());
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleRuntimeException(TaskNotFoundException ex){
-        return new ErrorResponse("Tarea no encontrada", ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
